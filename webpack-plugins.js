@@ -4,6 +4,11 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+const extractSass = new ExtractTextPlugin({
+  filename: "[name].[contenthash].css",
+  disable: process.env.NODE_ENV === "development"
+});
+
 exports.loaderOptions = new webpack.LoaderOptionsPlugin({
   options: {
     context: __dirname,
@@ -28,7 +33,7 @@ exports.uglifyJs = new webpack.optimize.UglifyJsPlugin({
 
 exports.extractText = (() => {
   const config = {
-    filename:  'style.css',
+    filename: "src/style.scss",
   };
   return new ExtractTextPlugin(config);
 })();
@@ -57,5 +62,5 @@ exports.sw = new SWPrecacheWebpackPlugin({
 });
 
 exports.copy = new CopyWebpackPlugin([
-  { from: 'src/pwa' },
+  {from: 'src/pwa'},
 ]);

@@ -4,14 +4,15 @@ import {
   Route,
   Link,
 } from 'react-router-dom';
-import style from '../style.css';
+
+import "./../style.scss";
 
 const Layout = (props) => {
   return (
     <BrowserRouter>
-      <div>
-        <div className={style['header']}>
-          <h1 className={style['title']}>My First React PWA</h1>
+      <React.Fragment>
+        <div className="header">
+          <h1 className="title">My First React PWA</h1>
           <ul>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/about">About</Link></li>
@@ -26,7 +27,7 @@ const Layout = (props) => {
         <footer>
           <div>2018, Rousseau Julien</div>
         </footer>
-      </div>
+      </React.Fragment>
     </BrowserRouter>
   );
 };

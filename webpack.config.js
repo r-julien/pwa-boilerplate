@@ -1,46 +1,46 @@
-const webpack = require('webpack');
-const merge = require('webpack-merge');
+const webpack = require("webpack");
+const merge = require("webpack-merge");
 
-const PATHS = require('./webpack-paths');
-const loaders = require('./webpack-loaders');
-const plugins = require('./webpack-plugins');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const PATHS = require("./webpack-paths");
+const loaders = require("./webpack-loaders");
+const plugins = require("./webpack-plugins");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const common = {
-	entry: PATHS.src,
-	output: {
-		path: PATHS.public,
-		filename: 'bundle.js',
-	},
-	module: {
+  entry: PATHS.src,
+  output: {
+    path: PATHS.public,
+    filename: "bundle.js",
+  },
+  module: {
     rules: [
       loaders.babel,
-      loaders.extractCss,
+      loaders.sass
     ],
   },
-	resolve: {
+  resolve: {
     alias: {
       components: PATHS.components,
     },
-    extensions: ['.js', '.jsx'],
+    extensions: [".js", ".jsx"]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'template.html',
+      filename: "index.html",
+      template: "template.html",
     }),
-    plugins.extractText,
+    plugins.extractText
   ],
 };
 
 let config;
 
 switch (process.env.NODE_ENV) {
-	case 'production':
-		config = merge(
-		  common,
+  case "production":
+    config = merge(
+      common,
       {
-        devtool: 'source-map',
+        devtool: "source-map",
         plugins: [
           plugins.loaderOptions,
           plugins.environmentVariables,
@@ -50,17 +50,17 @@ switch (process.env.NODE_ENV) {
           plugins.copy,
         ],
       }
-	  );
-		break;
-	case 'development':
-		config = merge(
-			common,
-			{ devtool: 'eval-source-map' },
-			loaders.devServer({
-				host: process.env.host,
-				port: process.env.port,
-			})
-		);
+    );
+    break;
+  case "development":
+    config = merge(
+      common,
+      {devtool: "eval-source-map"},
+      loaders.devServer({
+        host: process.env.host,
+        port: process.env.port,
+      })
+    );
     break;
 }
 
