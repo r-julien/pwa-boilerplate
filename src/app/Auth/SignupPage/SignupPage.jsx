@@ -1,6 +1,8 @@
 import React from "react";
+import { connect } from 'react-redux';
+import { userActions } from '../../_actions';
 
-export default class SignupPage extends React.Component {
+class SignupPage extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -15,3 +17,13 @@ export default class SignupPage extends React.Component {
   }
 
 }
+
+function mapStateToProps(state) {
+  const {registering} = state.registration;
+  return {
+    registering
+  };
+}
+
+const connectedSignupPage = connect(mapStateToProps(SignupPage));
+export { connectedSignupPage as SignupPage };

@@ -11,6 +11,7 @@
     "build": "NODE_ENV=production webpack"
   },
   "dependencies": {
+    "history": "^4.7.2",
     "node-sass": "^4.7.2",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",

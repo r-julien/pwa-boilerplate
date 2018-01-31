@@ -6,14 +6,16 @@ import {
   Link,
 } from 'react-router-dom';
 
-import SignupPage from "../Auth/SignupPage/SignupPage";
-import SigninPage from "../Auth/SigninPage/SigninPage";
+import { alertActions } from '../_actions';
+import { SignupPage, SigninPage } from "../Auth";
 
 import "../../style.scss";
 
-const App = (store) => {
+const Root = (props) => {
 
-  console.log(store);
+  console.log(props);
+  const {dispatch, alert} = props;
+
   return (
     <Router>
       <React.Fragment>
@@ -26,6 +28,12 @@ const App = (store) => {
           </ul>
         </div>
 
+        <div>
+          {
+            alert.message &&
+            <div className={`alert ${alert.type}`}>{alert.message}</div>
+          }
+        </div>
 
         <Route exact path="/" component={Home} />
         <Route path="/signin" component={SigninPage} />
@@ -48,7 +56,5 @@ function mapStateToProps(state) {
   };
 }
 
-const connectedApp = connect(mapStateToProps)(App);
+const connectedApp = connect(mapStateToProps)(Root);
 export { connectedApp as App };
-
-export default App;
