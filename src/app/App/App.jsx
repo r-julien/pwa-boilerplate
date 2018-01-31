@@ -1,20 +1,19 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import {
   BrowserRouter as Router,
   Route,
   Link,
-} from 'react-router-dom';
+} from "react-router-dom";
 
-import { alertActions } from '../_actions';
+import { PrivateRoute } from "../_components";
 import { SignupPage, SigninPage } from "../Auth";
 
 import "../../style.scss";
 
 const Root = (props) => {
 
-  console.log(props);
-  const {dispatch, alert} = props;
+  const {alert} = props;
 
   return (
     <Router>
@@ -23,6 +22,7 @@ const Root = (props) => {
           <h1 className="title">My application</h1>
           <ul>
             <li><Link to="/">Home</Link></li>
+            <li><Link to="/protected">Protected</Link></li>
             <li><Link to="/signin">Signin</Link></li>
             <li><Link to="/signup">Signup</Link></li>
           </ul>
@@ -36,6 +36,8 @@ const Root = (props) => {
         </div>
 
         <Route exact path="/" component={Home} />
+
+        <PrivateRoute exact path="/protected" component={Protected} />
         <Route path="/signin" component={SigninPage} />
         <Route path="/signup" component={SignupPage} />
 
@@ -48,6 +50,7 @@ const Root = (props) => {
 };
 
 const Home = () => <div><h2>Home</h2></div>;
+const Protected = () => <div><h2>Protected Page</h2></div>;
 
 function mapStateToProps(state) {
   const {alert} = state;

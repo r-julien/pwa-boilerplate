@@ -10,14 +10,14 @@ export const userService = {
   delete: _delete
 };
 
-function login(username, password) {
+function login(email, password) {
   const requestOptions = {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({username, password})
+    body: JSON.stringify({email, password})
   };
 
-  return fetch('/users/authenticate', requestOptions)
+  return fetch('http://127.0.0.1:8088/api/v1/auth/signin', requestOptions)
     .then(response => {
       if (!response.ok) {
         return Promise.reject(response.statusText);
@@ -25,9 +25,15 @@ function login(username, password) {
 
       return response.json();
     })
-    .then(user => {
+    .then(result => {
+
+      const {user, token} = result;
+      user.token = token;
+
+      console.log(user);
+      console.log(token);
       // login successful if there's a jwt token in the response
-      if (user && user.token) {
+      if (user && token) {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('user', JSON.stringify(user));
       }
@@ -66,7 +72,8 @@ function register(user) {
     body: JSON.stringify(user)
   };
 
-  return fetch('/users/register', requestOptions).then(handleResponse);
+  return fetch('http://127.0.0.1:8088/api/v1/auth/signup', requestOptions)
+    .then(handleResponse);
 }
 
 function update(user) {
