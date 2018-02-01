@@ -1,19 +1,24 @@
 import React from "react";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import {
   BrowserRouter as Router,
   Route,
   Link,
 } from "react-router-dom";
 
-import { PrivateRoute } from "../_components";
-import { SignupPage, SigninPage } from "../Auth";
+import {userActions} from "../_actions"
+import {PrivateRoute} from "../_components";
+import {SignupPage, SigninPage} from "../Auth";
 
 import "../../style.scss";
 
 const Root = (props) => {
 
-  const {alert} = props;
+  const {dispatch, alert} = props;
+
+  const logout = () => {
+    dispatch(userActions.logout());
+  };
 
   return (
     <Router>
@@ -25,6 +30,9 @@ const Root = (props) => {
             <li><Link to="/protected">Protected</Link></li>
             <li><Link to="/signin">Signin</Link></li>
             <li><Link to="/signup">Signup</Link></li>
+            <li>
+              <button onClick={logout}>Logout</button>
+            </li>
           </ul>
         </div>
 
@@ -35,11 +43,11 @@ const Root = (props) => {
           }
         </div>
 
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" component={Home}/>
 
-        <PrivateRoute exact path="/protected" component={Protected} />
-        <Route path="/signin" component={SigninPage} />
-        <Route path="/signup" component={SignupPage} />
+        <PrivateRoute exact path="/protected" component={Protected}/>
+        <Route path="/signin" component={SigninPage}/>
+        <Route path="/signup" component={SignupPage}/>
 
         <footer>
           <div>2018, Rousseau Julien</div>
@@ -60,4 +68,4 @@ function mapStateToProps(state) {
 }
 
 const connectedApp = connect(mapStateToProps)(Root);
-export { connectedApp as App };
+export {connectedApp as App};
