@@ -1,40 +1,32 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-  BrowserRouter as Router,
+  Router,
   Route,
   Link,
 } from "react-router-dom";
 
 import {userActions} from "../_actions"
-import {PrivateRoute} from "../_components";
 import {SignupPage, SigninPage} from "../Auth";
+import {history, siteMap} from "../_config";
 
-import "../../style.scss";
+import {PrivateRoute, Navbar} from "../_components";
+import "../Style.scss";
 
 const Root = (props) => {
 
-  const {dispatch, alert} = props;
+  const {dispatch, alert, loggedIn} = props;
+  const {links} = siteMap;
 
   const logout = () => {
     dispatch(userActions.logout());
   };
 
   return (
-    <Router>
+    <Router history={history}>
       <React.Fragment>
-        <div className="header">
-          <h1 className="title">My application</h1>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/protected">Protected</Link></li>
-            <li><Link to="/signin">Signin</Link></li>
-            <li><Link to="/signup">Signup</Link></li>
-            <li>
-              <button onClick={logout}>Logout</button>
-            </li>
-          </ul>
-        </div>
+
+        <Navbar loggedIn={loggedIn} links={links} logout={logout}/>
 
         <div>
           {
@@ -44,8 +36,9 @@ const Root = (props) => {
         </div>
 
         <Route exact path="/" component={Home}/>
+        <Route exact path="/home" component={Home}/>
 
-        <PrivateRoute exact path="/protected" component={Protected}/>
+        <PrivateRoute exact path="/private" component={Protected}/>
         <Route path="/signin" component={SigninPage}/>
         <Route path="/signup" component={SignupPage}/>
 
@@ -61,9 +54,11 @@ const Home = () => <div><h2>Home</h2></div>;
 const Protected = () => <div><h2>Protected Page</h2></div>;
 
 function mapStateToProps(state) {
-  const {alert} = state;
+  const {alert, authentication} = state;
+  const {loggedIn} = authentication;
   return {
-    alert
+    alert,
+    loggedIn
   };
 }
 

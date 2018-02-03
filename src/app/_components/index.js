@@ -1,1 +1,2 @@
-export * from './PrivateRoute.jsx';
+export * from "./PrivateRoute";
+export * from "./Navbar/Navbar";

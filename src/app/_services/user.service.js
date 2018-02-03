@@ -13,7 +13,10 @@ export const userService = {
 function login(email, password) {
   const requestOptions = {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    mode: 'cors',
+    headers: new Headers({
+      "Content-Type": "application/json"
+    }),
     body: JSON.stringify({email, password})
   };
 
@@ -54,7 +57,7 @@ function getAll() {
   return fetch("/users", requestOptions).then(handleResponse);
 }
 
-function getById(id) {
+function getById(_id) {
   const requestOptions = {
     method: "GET",
     headers: authHeader()
@@ -70,7 +73,7 @@ function register(user) {
     body: JSON.stringify(user)
   };
 
-  return fetch(`${api.baseUrl}auth/signin`, requestOptions)
+  return fetch(`${api.baseUrl}auth/signup`, requestOptions)
     .then(handleResponse);
 }
 
